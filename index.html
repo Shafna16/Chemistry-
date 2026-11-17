@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MoleculeLab - explore molecules, compare properties and learn chemistry." />
+  <title>MoleculeLab — Molecular Universe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://3Dmol.org/build/3Dmol-min.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="MoleculeLab home">
+        <span class="brand-mark">✳</span>
+        <span><strong>MoleculeLab</strong><small>MOLECULAR UNIVERSE</small></span>
+      </a>
+      <p class="nav-label">WORKSPACE</p>
+      <nav id="main-nav">
+        <button class="nav-item active" data-page="overview">◈ <span>Overview</span></button>
+        <button class="nav-item" data-page="explore">⌕ <span>Explore molecules</span></button>
+        <button class="nav-item" data-page="visualizer">◎ <span>3D visualizer</span></button>
+        <button class="nav-item" data-page="compare">⇄ <span>Compare</span></button>
+        <button class="nav-item" data-page="analytics">▥ <span>Analytics</span></button>
+        <button class="nav-item" data-page="learn">✧ <span>Learning studio</span></button>
+        <button class="nav-item" id="export-nav">↧ <span>Export report</span></button>
+      </nav>
+      <p class="nav-label about-label">ABOUT</p>
+      <button class="nav-item" data-page="about">ⓘ <span>About MoleculeLab</span></button>
+      <div class="sidebar-bottom">
+        <span class="status-dot"></span>
+        <span>MOLECULAR ENGINE ONLINE</span>
+        <small>Educational use only</small>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumb">Workspace <span>/</span> <strong id="crumb">Overview</strong></div>
+        <div class="top-actions"><span class="live-pill"><i></i> SYSTEM READY</span><button class="avatar" title="Guest profile">G</button></div>
+      </header>
+
+      <section class="page active" id="page-overview">
+        <div class="hero">
+          <div class="eyebrow">✦ THE MOLECULAR UNIVERSE</div>
+          <h1>Visualize the<br><span>invisible.</span></h1>
+          <p>Explore chemical space in a living, interactive molecular universe. Discover structures, compare properties and make chemistry easier to understand.</p>
+          <div class="hero-actions">
+            <button class="primary-btn" data-go="explore">Explore molecules <span>↗</span></button>
+            <button class="secondary-btn" data-go="visualizer">Open 3D visualizer</button>
+          </div>
+          <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+          <div class="hero-atom atom-a"></div><div class="hero-atom atom-b"></div><div class="hero-atom atom-c"></div>
+        </div>
+
+        <div class="section-heading"><div><p class="eyebrow">YOUR WORKSPACE</p><h2>Explore the elements</h2></div><span class="muted mono">01 — 06 / MODULES</span></div>
+        <div class="module-grid">
+          <button class="module-card" data-go="explore"><span class="module-icon">⌕</span><small>01 / DISCOVERY</small><strong>Explore molecules</strong><p>Search a starter library of familiar compounds.</p><span class="card-arrow">↗</span></button>
+          <button class="module-card" data-go="visualizer"><span class="module-icon">◎</span><small>02 / STRUCTURE</small><strong>3D visualizer</strong><p>View molecular structures in an interactive 3D space.</p><span class="card-arrow">↗</span></button>
+          <button class="module-card" data-go="compare"><span class="module-icon">⇄</span><small>03 / ANALYSIS</small><strong>Compare</strong><p>Compare formulas and basic molecular properties.</p><span class="card-arrow">↗</span></button>
+          <button class="module-card" data-go="analytics"><span class="module-icon">▥</span><small>04 / INSIGHTS</small><strong>Analytics</strong><p>See a quick overview of the sample library.</p><span class="card-arrow">↗</span></button>
+          <button class="module-card" data-go="learn"><span class="module-icon">✧</span><small>05 / LEARNING</small><strong>Learning studio</strong><p>Review chemistry concepts and key vocabulary.</p><span class="card-arrow">↗</span></button>
+          <button class="module-card" id="export-card"><span class="module-icon">↧</span><small>06 / OUTPUT</small><strong>Export report</strong><p>Download a simple report of the molecule library.</p><span class="card-arrow">↗</span></button>
+        </div>
+      </section>
+
+      <section class="page" id="page-explore">
+        <div class="page-heading"><div><p class="eyebrow">DISCOVERY / 01</p><h1>Explore molecules</h1><p>Search the starter collection and select a molecule to inspect.</p></div></div>
+        <div class="search-row"><span>⌕</span><input id="search-input" placeholder="Search by molecule name or formula..." /><span class="search-hint">ENTER TO SEARCH</span></div>
+        <div class="filter-row"><span class="muted">STARTER LIBRARY</span><span class="count" id="result-count">8 MOLECULES</span></div>
+        <div class="molecule-grid" id="molecule-grid"></div>
+      </section>
+
+      <section class="page" id="page-visualizer">
+        <div class="page-heading"><div><p class="eyebrow">STRUCTURE / 02</p><h1>3D visualizer</h1><p>Choose a molecule to load its 3D structure. Rotate and zoom the model.</p></div></div>
+        <div class="visualizer-layout">
+          <div class="viewer-panel">
+            <div class="viewer-top"><span class="mono">MOLECULAR RENDER MODE</span><span class="live-pill"><i></i> WEBGL VIEW</span></div>
+            <div id="viewer" class="viewer"><div class="viewer-placeholder"><div class="placeholder-orbit">◎</div><strong>Select a molecule</strong><p>The 3D structure will appear here when available.</p></div></div>
+            <div class="viewer-footer"><span id="viewer-status">WAITING FOR INPUT</span><span>DRAG TO ROTATE · SCROLL TO ZOOM</span></div>
+          </div>
+          <div class="control-panel"><p class="eyebrow">MOLECULE SELECTOR</p><label for="viewer-select">Choose compound</label><select id="viewer-select"></select><div id="viewer-info" class="viewer-info"><span class="muted">No molecule selected</span></div><button class="primary-btn full" id="load-model">Load 3D structure ↗</button><p class="tiny-note">3D structure data is requested from PubChem when you load a molecule. Internet access is required.</p></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-compare">
+        <div class="page-heading"><div><p class="eyebrow">ANALYSIS / 03</p><h1>Compare molecules</h1><p>Select two compounds to compare their basic information.</p></div></div>
+        <div class="compare-controls"><div><label for="compare-a">MOLECULE A</label><select id="compare-a"></select></div><div class="versus">VS</div><div><label for="compare-b">MOLECULE B</label><select id="compare-b"></select></div></div>
+        <div id="compare-result" class="compare-result"></div>
+      </section>
+
+      <section class="page" id="page-analytics">
+        <div class="page-heading"><div><p class="eyebrow">INSIGHTS / 04</p><h1>Library analytics</h1><p>A quick snapshot of the educational sample collection.</p></div></div>
+        <div class="stats-grid" id="stats-grid"></div>
+        <div class="panel chart-panel"><div class="panel-title"><div><p class="eyebrow">COMPOSITION</p><h2>Atoms across the sample library</h2></div><span class="muted mono">ELEMENT COUNTS</span></div><div id="element-chart" class="bar-chart"></div></div>
+      </section>
+
+      <section class="page" id="page-learn">
+        <div class="page-heading"><div><p class="eyebrow">KNOWLEDGE / 05</p><h1>Learning studio</h1><p>Short explanations to help you understand molecular chemistry.</p></div></div>
+        <div class="lesson-grid">
+          <article class="lesson-card"><span>01 / BASICS</span><h2>What is a molecule?</h2><p>A molecule is a group of two or more atoms held together by chemical bonds. Water (H₂O) and oxygen (O₂) are examples.</p></article>
+          <article class="lesson-card"><span>02 / STRUCTURE</span><h2>Chemical formula</h2><p>A chemical formula uses element symbols and numbers to show which atoms, and how many of each atom, are present in a molecule.</p></article>
+          <article class="lesson-card"><span>03 / BONDING</span><h2>Covalent bond</h2><p>A covalent bond forms when atoms share one or more pairs of electrons. Many common molecules contain covalent bonds.</p></article>
+          <article class="lesson-card"><span>04 / 3D CHEMISTRY</span><h2>Molecular geometry</h2><p>Molecular geometry describes the three-dimensional arrangement of atoms. Electron-pair repulsion helps explain many molecular shapes.</p></article>
+        </div>
+      </section>
+
+      <section class="page" id="page-about">
+        <div class="page-heading"><div><p class="eyebrow">ABOUT / 06</p><h1>About MoleculeLab</h1><p>A student-friendly space for exploring the building blocks of matter.</p></div></div>
+        <div class="about-panel"><div class="about-symbol">✳</div><div><h2>Molecular Universe</h2><p>MoleculeLab is an educational front-end project designed to make basic molecular information easier to explore. It includes a sample molecule library, property comparison, learning notes and an optional 3D structure viewer.</p><p class="muted">Molecular information is provided for learning and demonstration. Always consult reliable chemistry references for academic or laboratory work.</p></div></div>
+      </section>
+      <footer>MOLECULELAB <span>·</span> VISUALIZE THE INVISIBLE <span>·</span> EDUCATIONAL USE ONLY</footer>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
